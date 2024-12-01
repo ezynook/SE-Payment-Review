@@ -1,0 +1,358 @@
+/* General container styling */
+.payment-method-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px; /* Slightly rounded corners for a smooth look */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+    font-family: 'Arial', sans-serif;
+    color: #4a148c; /* Deep purple text */
+    position: relative;
+    background-image: url('https://cdn.gencraft.com/prod/user/52f5c0e1-b0dd-4830-97b9-3ab5af8cf65e/b5cf5087-f6dd-4597-82ed-784253a5a7ad/image/image1_0.jpg?Expires=1732018672&Signature=j-JZtULs2Vz7LtJ~gpEzPdm3txhTofTMWHYOukNMr4VaM9o2UQZU-OG~r5XMMwmk4nE~Xw~ScIUTU3qpw8NVyDVuSRYk~EHAK5wGm5cmPneWL-VeQd30qnZmgoJyKJ9d7zHlgHRiB39ogqPCYoXkwcNXtUQZUElbrkT4n2SzjoWg4D3HE~vU6z7F9klSFnb9neQNTpCS~~CimP-ePlTkLW99GtJ44Xtfc0fHX-Ggm-VCEgnc98H9xnV7yl-VvugLEzuznqqt76HNkh6JwryylFJ0j6wSCip98QS-2fo~YNPMaPePLRGdFkyMvFYkLeUDbADU29dbrsFdLawfuh8b1w__&Key-Pair-Id=K3RDDB1TZ8BHT8');
+    background-size: cover; /* Cover the container */
+    background-position: center; /* Center the background */
+    background-repeat: no-repeat; /* No repeat for the image */
+}
+
+/* Title and instructions */
+.payment-method-container h2 {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff; /* Make text white for contrast */
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Shadow for better readability */
+}
+
+.payment-method-container .payment-instructions {
+    text-align: center;
+    font-size: 16px;
+    color: #ffffff; /* White text for better contrast */
+    margin-bottom: 25px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Slight shadow */
+}
+
+/* Payment options styling */
+.payment-options {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.payment-option {
+    width: 48%;
+    background: rgba(225, 190, 231, 0.9); /* Light purple with transparency */
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    color: #4a148c; /* Deep purple text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.payment-option img {
+    width: 200px; /* Enlarge images */
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.payment-option:hover {
+    border: 2px solid #6a1b9a; /* Highlight border */
+    box-shadow: 0 4px 10px rgba(106, 27, 154, 0.3); /* Slight glow */
+    transform: scale(1.05); /* Subtle zoom effect */
+}
+
+.payment-option.selected {
+    border: 2px solid #4a148c; /* Active selection border */
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7); /* Lighter gradient for selected state */
+}
+
+
+
+/* Card details form */
+.card-details-form {
+    margin-bottom: 20px;
+}
+
+.card-details-form .form-group {
+    margin-bottom: 15px;
+}
+
+.card-details-form label {
+    font-size: 14px;
+    color: #4a148c;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Pay Now button */
+.pay-now-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #6a1b9a; /* Vibrant purple */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.pay-now-btn:hover {
+    background-color: #4a148c; /* Darker purple */
+    transform: translateY(-2px); /* Lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pay-now-btn:disabled {
+    background-color: #d1c4e9; /* Muted purple for disabled state */
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .payment-options {
+        flex-direction: column;
+    }
+
+    .payment-option {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .card-details-form .form-group {
+        margin-bottom: 10px;
+    }
+}
+/* Unified styling for inputs and selects */
+.card-details-form input, 
+.card-details-form select, 
+.form-group select {
+    width: 94.5%; /* Uniform width */
+    padding: 12px 15px; /* Same padding for all */
+    font-size: 16px; /* Font size consistency */
+    color: #4a148c; /* Deep purple text */
+    border: 2px solid #c082ff; /* Purple border */
+    border-radius: 8px; /* Rounded edges */
+    background-color: #f3e5f5; /* Light pastel purple */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    appearance: none; /* No default browser styling for dropdown */
+}
+.form-group1 select{
+    width: 100%; /* Uniform width */
+    padding: 12px 15px; /* Same padding for all */
+    font-size: 16px; /* Font size consistency */
+    color: #4a148c; /* Deep purple text */
+    border: 2px solid #c082ff; /* Purple border */
+    border-radius: 8px; /* Rounded edges */
+    background-color: #f3e5f5; /* Light pastel purple */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    appearance: none; /* No default browser styling for dropdown */
+}
+.form-group2 select{
+    width: 100%; /* Uniform width */
+    padding: 12px 15px; /* Same padding for all */
+    font-size: 16px; /* Font size consistency */
+    color: #4a148c; /* Deep purple text */
+    border: 2px solid #c082ff; /* Purple border */
+    border-radius: 8px; /* Rounded edges */
+    background-color: #f3e5f5; /* Light pastel purple */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    appearance: none; /* No default browser styling for dropdown */
+}
+.form-group3 select{
+    width: 100%; /* Uniform width */
+    padding: 12px 15px; /* Same padding for all */
+    font-size: 16px; /* Font size consistency */
+    color: #4a148c; /* Deep purple text */
+    border: 2px solid #c082ff; /* Purple border */
+    border-radius: 8px; /* Rounded edges */
+    background-color: #f3e5f5; /* Light pastel purple */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    appearance: none; /* No default browser styling for dropdown */
+}
+.form-group5 select{
+    width: 100%; /* Uniform width */
+    padding: 12px 15px; /* Same padding for all */
+    font-size: 16px; /* Font size consistency */
+    color: #4a148c; /* Deep purple text */
+    border: 2px solid #c082ff; /* Purple border */
+    border-radius: 8px; /* Rounded edges */
+    background-color: #f3e5f5; /* Light pastel purple */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    appearance: none; /* No default browser styling for dropdown */
+}
+/* Hover effects */
+.card-details-form input:hover, 
+.card-details-form select:hover {
+    border-color: #7f6acb; /* Darker purple on hover */
+    box-shadow: 0 6px 12px rgba(127, 106, 203, 0.3); /* Glowing shadow */
+}
+
+/* Focus effects */
+.card-details-form input:focus, 
+.card-details-form select:focus {
+    border-color: #6a1b9a; /* Highlighted purple on focus */
+    box-shadow: 0 6px 12px rgba(106, 27, 154, 0.5); /* Enhanced glow effect */
+    outline: none; /* Remove default outline */
+}
+
+/* Label Styling */
+.form-group label {
+    font-size: 16px; /* Standardized font size */
+    font-weight: bold; /* Bold label for emphasis */
+    color: #6a1b9a; /* Deep purple */
+    margin-bottom: 8px; /* Space below label */
+    display: block; /* Label alignment */
+}
+
+.error-message {
+    color: #ff4d4d; /* Bright red for visibility */
+    font-size: 14px;
+    margin-top: 5px;
+    padding: 10px 20px; /* Add more padding for spacing */
+    padding-left: 31px; /* Specifically adjust left padding to move text */
+    background: rgba(255, 77, 77, 0.1); /* Light red background */
+    border: 1px solid #ff4d4d; /* Matching border */
+    border-radius: 6px; /* Rounded corners for a polished look */
+    box-shadow: 0 4px 6px rgba(255, 77, 77, 0.2); /* Subtle shadow */
+    font-weight: bold; /* Highlighted text */
+    position: relative;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    text-align: left; /* Align text properly */
+}
+  
+  /* Hover effect for error messages */
+  .error-message:hover {
+    background: rgba(255, 77, 77, 0.2); /* Darker red background on hover */
+    box-shadow: 0 6px 12px rgba(255, 77, 77, 0.4); /* Enhanced shadow on hover */
+    transform: scale(1.05); /* Slight enlargement for emphasis */
+  }
+
+/* Optional exclamation icon for added flair */
+.error-message::before {
+    content: "⚠️ "; /* Add an icon or symbol */
+    position: absolute;
+    left: 10px; /* Adjust the spacing from the left */
+    top: 40%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    margin-right: 5px; /* Space between icon and text */
+}
+.card-details-form select {
+    width: 90%;
+    padding: 12px 15px;
+    font-size: 16px;
+    color: #4a148c;
+    border: 2px solid #c082ff;
+    border-radius: 8px;
+    background-color: #f3e5f5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none;
+} 
+.custom-dropdown {
+    margin-top: 20px;
+    position: relative;
+  }
+  
+  .custom-dropdown label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #6a1b9a;
+    margin-bottom: 10px;
+    display: block;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dropdown-selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 2px solid #c082ff;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e3d8f1, #f3e5f5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+    color: #4a148c;
+    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2);
+  }
+  
+  .dropdown-selected:hover {
+    background: linear-gradient(135deg, #e1bee7, #d1c4e9);
+    border-color: #6a1b9a;
+    box-shadow: 0 6px 12px rgba(106, 27, 154, 0.3);
+    transform: scale(1.02);
+  }
+  
+  .dropdown-menu {
+    margin-top: 8px;
+    background: linear-gradient(135deg, #fdfdfd, #f9f9f9);
+    border: 2px solid #c082ff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #4a148c;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .dropdown-item:hover {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(106, 27, 154, 0.2);
+  }
+  
+  .dropdown-image {
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dropdown-item span {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #6a1b9a;
+  }
+  
+  .dropdown-item:hover span {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dropdown-item:hover .dropdown-image {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
