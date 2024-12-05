@@ -1,9 +1,9 @@
-import { PaymentInterface } from "../../interface/IPayment";
+import { Payment } from "../../interface/IPayment";
 
 const apiUrl = "http://localhost:8000";
 
 // GET all payments
-export async function GetPayments() {
+export async function GetPayment() {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -33,7 +33,7 @@ export async function GetPaymentById(id: number | undefined) {
 }
 
 // POST (Create) a new payment
-export async function CreatePayments(data: PaymentInterface) {
+export async function CreatePayments(data: Payment) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -47,7 +47,7 @@ export async function CreatePayments(data: PaymentInterface) {
 }
 
 // PATCH (Update) an existing payment
-export async function UpdatePayments(data: PaymentInterface) {
+export async function UpdatePayments(data: Payment) {
   const requestOptions = {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },

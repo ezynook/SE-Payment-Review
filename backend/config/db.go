@@ -25,17 +25,30 @@ func ConnectionDB() {
 	db = database
 }
 
-// SetupDatabase migrates schemas and adds sample data
 func SetupDatabase() {
-	// Call AutoMigrate to set up your database schema for all entities
-	err := db.AutoMigrate(&entity.Review{}, &entity.Payment{}) // Add other entities as needed
+	// Automatically migrate schemas for all entities
+	err := db.AutoMigrate(
+		&entity.Review{},
+		&entity.Payment{},
+		&entity.Booking{},
+		&entity.Promotion{},
+		&entity.StatusPromotion{},
+		&entity.DiscountType{},
+		&entity.Passenger{},
+		&entity.Driver{},
+	)
 	if err != nil {
 		fmt.Println("Error migrating tables:", err)
 		return
 	}
 
-	// Call setup functions to add sample data
+	// Seed sample data for each entity
 	SetupReviewDatabase()
 	SetupPaymentDatabase()
-	fmt.Println("Sample data has been added to the database.")
+	SetupBookingDatabase()
+	SetupDriverDatabase()
+	SetupPassengerDatabase()
+	SetupPromotionDatabase()
+
+	fmt.Println("Database setup and sample data seeding completed.")
 }

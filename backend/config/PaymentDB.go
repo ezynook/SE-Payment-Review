@@ -1,5 +1,4 @@
 package config
-
 import (
     "fmt"
     "SE/entity" // Adjust the import path to your actual project structure
@@ -18,7 +17,7 @@ func SetupPaymentDatabase() {
     // Create sample payment data
     paymentData := entity.Payment{
         PaymentAmount:  500.00,
-        PaymentMethod:  "Credit/Debit Card",
+    	PaymentMethod:  "Credit/Debit Card",
         PaymentDate:    time.Now(),
         BookingID:      1,
     }

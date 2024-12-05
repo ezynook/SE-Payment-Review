@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import "./Home.css";
+import { Booking } from "../src/payment/interface/IBooking";
+import { GetBooking } from "../src/payment/services/https/BookingAPI";
+import { Payment } from "../src/payment/interface/IPayment";
+import { PromotionInterface } from "../src/payment/interface/IPromotion";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -10,7 +14,27 @@ const Home: React.FC = () => {
   const [isUsed, setIsUsed] = useState(false);
   const [totalCost, setTotalCost] = useState(120.0);
   const [estimatedCost] = useState(141.0);
+  const [startLocation, setStartLocation] = useState<string>("");
+  const [booking, setBooking] = useState<Booking[]>([]);
+  const fetchBooking = async () => {
+    try {
+      const response = await GetBooking();
+      console.log("Fetched bookings:", response);
+      if (Array.isArray(response)) {
+        setBooking(response);
+      } else {
+        console.error("Unexpected response format:", response);
+        setBooking([]);
+      }
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  };
 
+  useEffect(() => {
+    fetchBooking();
+  }, []);
+  console.log("booking for payment: ", booking);
   const menuItems = [
     { name: "Home", icon: "https://cdn-icons-png.flaticon.com/128/18390/18390765.png", route: "/" },
     { name: "Payment", icon: "https://cdn-icons-png.flaticon.com/128/18209/18209461.png", route: "/payment" },
@@ -207,7 +231,7 @@ const Home: React.FC = () => {
               />
             </div>
             <p className="booking-text">
-              Booking: <span>12</span>
+              Booking: <span>{booking}</span>
             </p>
               <p className="distance-text">
         Distance: <span>20 KM</span>

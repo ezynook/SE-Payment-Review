@@ -1,11 +1,13 @@
-//import { BookingInterface } from "../../room/booking/interfaces/IBooking";
+import { Booking } from "../interface/IBooking"; // Adjust import path as needed
+import { PromotionInterface } from "../interface/IPromotion"; // Adjust import path as needed
 
-export interface PaymentInterface {
-    ID?: number;               // Optional unique identifier for the payment
-    PaymentDate: Date;         // Date of the payment
-    TotalAmount: number;       // Total amount paid
-    PaymentMethod: string;     // Method of payment (e.g., Credit Card, Cash, etc.)
-    BookingID: number;         // Foreign key linking to the booking
-   // Booking?: BookingInterface; // Optional associated booking data
-    PromotionID?: number;      // Optional foreign key linking to a promotion, if applicable
+export interface Payment {
+    ID?: number;                   // Optional unique identifier for the payment
+    PaymentDate: string;           // Date of the payment as an ISO8601 string
+    TotalAmount: number;           // Total amount paid
+    PaymentMethod: string;         // Method of payment (e.g., Credit Card, Cash, etc.)
+    BookingID: number;             // Foreign key linking to the booking
+    Booking?: Booking;             // Optional associated booking data
+    PromotionID?: number;          // Optional foreign key linking to a promotion
+    Promotion?: PromotionInterface; // Optional associated promotion details
 }

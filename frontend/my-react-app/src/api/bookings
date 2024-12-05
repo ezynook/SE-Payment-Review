@@ -1,0 +1,9 @@
+{
+  "BookingID": 1,
+  "StartLocation": "Bangkok",
+  "Destination": "London",
+  "StartTime": "2024-12-01T09:00:00Z",
+  "EndTime": "2024-12-01T18:00:00Z",
+  "Distance": 20,
+  "TotalPrice": 1500.00
+}

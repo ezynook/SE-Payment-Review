@@ -1,10 +1,13 @@
 package main
 
 import (
-	"net/http"
 	"SE/config"
 	"SE/controller/Payment"
+	"SE/controller/Promotion"
+	"SE/controller/statuspromotion"
+	"SE/controller/discounttype"
 	"SE/controller/review"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,6 +38,17 @@ func main() {
 	r.GET("/reviews", review.ListReviews)
 	r.DELETE("/reviews/:id", review.DeleteReview)
 	r.PATCH("/reviews/:id", review.UpdateReview)
+
+	// Promotion Routes
+	r.GET("/promotions", promotion.GetAllPromotion)
+	r.GET("/promotion/:id", promotion.GetPromotion)
+	r.POST("/promotion", promotion.CreatePromotion)
+	r.PUT("/promotion/:id", promotion.UpdatePromotion)
+	r.DELETE("/promotion/:id", promotion.DeletePromotion)
+
+	r.GET("/discounttype", discounttype.GetAllD) // ใช้ฟังก์ชัน GetAllD จาก package discounttype
+
+	r.GET("/statuses", statuspromotion.GetAllStatusPromotion) // เพิ่มเส้นทางสำหรับ Status
 
 	// Root route for health check
 	r.GET("/", func(c *gin.Context) {
