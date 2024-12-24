@@ -1,45 +1,96 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./edit.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Review {
   driverId: string;
   passengerId: string;
   reviewId: string;
   comment: string;
-  features: string;
   rating: number;
 }
 
 const Edit: React.FC = () => {
   const navigate = useNavigate();
+  const { reviewId } = useParams<{ reviewId: string }>(); // รับ reviewId จาก URL
 
-  // Form State
   const [review, setReview] = useState<Review>({
     driverId: "",
     passengerId: "",
     reviewId: "",
     comment: "",
-    features: "",
     rating: 0,
   });
 
-  // Error State
   const [errors, setErrors] = useState({
     driverId: "",
     passengerId: "",
     comment: "",
-    features: "",
     rating: "",
   });
 
-  // Handle Input Changes
+  // ดึงข้อมูลรีวิวที่ต้องการแก้ไข
+  useEffect(() => {
+    const fetchReview = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8001/get/reviews/id?id=${localStorage.getItem("review_id")}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch review data.");
+        }
+        const {data:[result]} = await response.json();
+        console.log(result);
+        
+        setReview({
+          driverId: result.driver_id,
+          passengerId: result.passenger_id,
+          reviewId: result.review_id.toString(),
+          comment: result.comment,
+          rating: result.rating,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchReview();
+  }, [reviewId]);
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8001/edit/reviews", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          review_id: localStorage.getItem("review_id"),
+          rating: review.rating,
+          comment: review.comment,
+          booking_id: localStorage.getItem("book_id"),
+          passenger_id: review.passengerId,
+          driver_id: review.driverId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save review.");
+      }
+
+      alert("Review updated successfully.");
+      navigate("/review/history");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update review.");
+    }
+  };
+
+  const handleBack = () => {
+    navigate(-1);
+  };
   const handleChange = (field: keyof Review, value: string | number) => {
     setReview((prev) => ({ ...prev, [field]: value }));
     validateField(field, value);
   };
-
-  // Validation Logic
   const validateField = (field: keyof Review, value: string | number) => {
     let errorMessage = "";
 
@@ -58,31 +109,6 @@ const Edit: React.FC = () => {
     setErrors((prev) => ({ ...prev, [field]: errorMessage }));
   };
 
-  // Handle Save
-  const handleSave = () => {
-    const validationErrors = {
-      driverId: review.driverId ? "" : "Driver ID is required.",
-      passengerId: review.passengerId ? "" : "Passenger ID is required.",
-      comment: "", // Optional
-      features: "", // Optional
-      rating: review.rating >= 1 && review.rating <= 5 ? "" : "Rating must be between 1 and 5.",
-    };
-
-    setErrors(validationErrors);
-
-    if (Object.values(validationErrors).some((error) => error)) {
-      alert("Please fix the errors before saving.");
-      return;
-    }
-
-    alert("Review saved successfully!");
-    navigate("/review/history");
-  };
-
-  // Handle Back
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   return (
     <div className="edit-container">

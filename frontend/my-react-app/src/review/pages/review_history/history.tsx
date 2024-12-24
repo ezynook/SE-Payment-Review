@@ -1,149 +1,147 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import "./History.css";
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from "react-router-dom";
+
+type ReviewEditParams = {
+	review_id: number;
+	rating: number;
+	comment: string;
+	booking_id: number;
+	passenger_id: number;
+	driver_id: number;
+  };
 
 const History: React.FC = () => {
-  const navigate = useNavigate();
-  const [reviews, setReviews] = useState([
-    {
-      driver: '01',
-      passenger: '12',
-      reviewId: 'REV001',
-      comment: 'Great ride, very punctual!',
-      features: ['Good', 'Travel', 'Comfortable'],
-      rating: 5,
-    },
-    {
-      driver: '08',
-      passenger: '77',
-      reviewId: 'REV002',
-      comment: 'Amazing',
-      features: ['Safety'],
-      rating: 3,
-    },
-  ]);
+    const [reviews, setReviews] = useState([]);
+    const navigate = useNavigate();
 
-  const menuItems = [
-    { name: 'Home', icon: 'https://cdn-icons-png.flaticon.com/128/18390/18390765.png', route: '/' },
-    { name: 'Payment', icon: 'https://cdn-icons-png.flaticon.com/128/18209/18209461.png', route: '/payment' },
-    { name: 'Review', icon: 'https://cdn-icons-png.flaticon.com/128/7656/7656139.png', route: '/review' },
-    { name: 'History', icon: 'https://cdn-icons-png.flaticon.com/128/9485/9485945.png', route: '/review/history' },
-  ];
+	const fetchData = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:8001/get/reviews");
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+            const result = await response.json();
+            setReviews(result.data); // อัปเดต state ด้วยข้อมูลใหม่
+        } catch (err) {
+            console.error("Fetch error:", err);
+            setReviews([]);
+        }
+    };
 
-  const handleMenuClick = (item: { name: string; icon: string; route: string }) => {
-    navigate(item.route);
-  };
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-  const handleEdit = (reviewId?: string) => {
-    alert(`Edit Information:`);
-    navigate(`/edit`); // Navigate to the edit page for the specific review
-  };
+    const handleEdit = ({
+		review_id,
+		rating,
+		comment,
+		booking_id,
+		passenger_id,
+		driver_id,
+	  }: ReviewEditParams): void => {
+		localStorage.setItem("review_id", review_id); 
+		localStorage.setItem("rating", rating); 
+		localStorage.setItem("comment", comment); 
+		localStorage.setItem("booking_id", booking_id); 
+		localStorage.setItem("passenger_id", passenger_id); 
+		localStorage.setItem("driver_id", driver_id); 
+		navigate(`/edit/`);
+	  };
 
-  const handleDelete = (reviewId: string) => {
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete review with ID: ${reviewId}?`
-    );
-    if (confirmDelete) {
-      setReviews((prevReviews) => prevReviews.filter((review) => review.reviewId !== reviewId));
-      alert(`Review with ID: ${reviewId} deleted successfully.`);
-    }
-  };
+    const handleDelete = async (reviewId: string) => {
+		const confirmDelete = window.confirm(
+			`Are you sure you want to delete review with ID: ${reviewId}?`
+		);
+	
+		if (confirmDelete) {
+			try {
+				const response = await fetch(`http://127.0.0.1:8001/delete/reviews`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ review_id: reviewId }), // ส่ง review_id ไปกับคำขอ
+				});
+	
+				if (!response.ok) {
+					throw new Error(`Error: ${response.statusText}`);
+				}
+	
+				const result = await response.json();
+	
+				if (result.message == 'success') {
+					fetchData();
+				} else {
+					alert(`Failed to delete review with ID: ${reviewId}.`);
+				}
+			} catch (err) {
+				console.error("Delete error:", err);
+				alert(`An error occurred while deleting review with ID: ${reviewId}.`);
+			}
+		}
+	};
+	
 
-  const handleBackClick = () => {
-    navigate(-1); // Navigate back to the previous page
-  };
+    return (
+        <div className="review-history-container">
+            {/* Content */}
+            <div className="review-history-content">
+                <h2 className="review-history-title">Review History</h2>
+                <table className="review-table">
+                    <thead>
+                        <tr>
+                            <th>Review ID</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Booking ID</th>
+                            <th>Passenger ID</th>
+                            <th>Driver ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {reviews.map((review: any) => (
+                            <tr key={review.review_id}>
+                                <td>{review.review_id}</td>
+                                <td>{review.rating}</td>
+                                <td>{review.comment}</td>
+                                <td>{review.booking_id}</td>
+                                <td>{review.passenger_id}</td>
+                                <td>{review.driver_id}</td>
+                                <td>
+								{/* Edit Button */}
+								<button
+									className="edit-btn"
+									onClick={() => 
+										handleEdit({
+											review_id: review.review_id,
+											rating: review.rating,
+											comment: review.comment,
+											booking_id: review.booking_id,
+											passenger_id: review.passenger_id,
+											driver_id: review.driver_id
+										})
+									}>
+									Edit
+								</button>
+								{/* Delete Button */}
+								<button
+									className="delete-btn"
+									onClick={() => handleDelete(review.review_id,)}>
+									Delete
+								</button>
+								</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
-  return (
-    <div className="review-history-container">
-      {/* Sidebar */}
-      <div className="sidebar">
-        {menuItems.map((item) => (
-          <div
-            key={item.name}
-            className="menu-item"
-            onClick={() => handleMenuClick(item)}
-          >
-            <img src={item.icon} alt={item.name} className="menu-icon" />
-            <p className="menu-text">{item.name}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Header */}
-      <header className="review-header">
-        <h1>REVIEW</h1>
-        <div className="step-indicatorss">
-          <div className="step completed"></div>
-          <div className="step completed"></div>
-          <div className="step active"></div>
+            <Outlet />
         </div>
-      </header>
-
-      {/* Content */}
-      <div className="review-history-content">
-        <h2 className="review-history-title">Review History</h2>
-        <table className="review-table">
-          <thead>
-            <tr>
-              <th>Driver ID</th>
-              <th>Passenger ID</th>
-              <th>Review ID</th>
-              <th>Comment</th>
-              <th>Features</th>
-              <th>Rating</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reviews.map((review) => (
-              <tr key={review.reviewId}>
-                <td>{review.driver}</td>
-                <td>{review.passenger}</td>
-                <td>{review.reviewId}</td>
-                <td>{review.comment}</td>
-                <td>
-                  {review.features.map((feature, idx) => (
-                    <span key={idx} className="feature-badge">
-                      {feature}
-                    </span>
-                  ))}
-                </td>
-                <td>
-                  {'★'.repeat(review.rating)}{' '}
-                  {'☆'.repeat(5 - review.rating)}
-                </td>
-                <td>
-                  {/* Edit Button */}
-                  <button
-                    className="edit-btn"
-                    onClick={() => handleEdit(review.reviewId)}
-                  >
-                    Edit
-                  </button>
-                  {/* Delete Button */}
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(review.reviewId)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Back Button */}
-      <div className="button-container">
-        <button className="secondary-btn back-btn" onClick={handleBackClick}>
-          Back
-        </button>
-      </div>
-
-      <Outlet />
-    </div>
-  );
+    );
 };
 
 export default History;
