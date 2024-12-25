@@ -37,7 +37,7 @@ class EditReviews(BaseModel):
     driver_id: int
 
 database_path = "project-sa67.db"
-engine = create_engine(f"sqlite:///{database_path}")
+engine = sqlite3.connect(database_path)
 
 @app.get("/", include_in_schema=False)
 async def index():
@@ -54,7 +54,8 @@ async def get_promo():
             *
         FROM 
             reviews
-        ORDER BY review_id ASC
+        ORDER BY 
+            review_id ASC
     """
     df = pd.read_sql(sql, engine)
     res = df.to_json(orient='records')
@@ -81,10 +82,6 @@ async def get_promo2(id: str):
         return {'message': 'success', 'data': parsed}
     except Exception as e:
         return {'message': 'error', 'data': e}
-    # if len(df) > 0:
-    #     return {'message': 'success', 'data': parsed}
-    # else:
-    #     return {'message': 'error', 'data': []}
 
 @app.delete("/delete/reviews", tags=["Review"])
 async def del_review(item: DeleteReview):
@@ -92,9 +89,9 @@ async def del_review(item: DeleteReview):
         DELETE FROM reviews WHERE review_id = {item.review_id}
     """
     try:
-        with engine.begin() as conn: 
-            conn.execute(sql)
-            last_id = conn.scalar("SELECT last_insert_rowid()")
+        cursor = engine.cursor()
+        cursor.execute(sql)
+        last_id = cursor.lastrowid
         return {'message': 'success', 'id': last_id}
     except Exception as e:
         return {'message': e, 'sql': sql}
@@ -114,9 +111,9 @@ async def del_review(item: EditReviews):
             review_id = {item.review_id}
     """
     try:
-        with engine.begin() as conn: 
-            conn.execute(sql)
-            last_id = conn.scalar("SELECT last_insert_rowid()")
-        return {'message': 'success', 'id': last_id, 'sql': sql}
+        cursor = engine.cursor()
+        cursor.execute(sql)
+        last_id = cursor.lastrowid
+        return {'message': 'success', 'id': last_id}
     except Exception as e:
-        return {'message': e, 'sql': sql}
+        return {'message': e}
