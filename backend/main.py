@@ -91,10 +91,10 @@ async def del_review(item: DeleteReview):
     try:
         cursor = engine.cursor()
         cursor.execute(sql)
-        last_id = cursor.lastrowid
-        return {'message': 'success', 'id': last_id}
+        engine.commit()
+        return {'message': 'success'}
     except Exception as e:
-        return {'message': e, 'sql': sql}
+        return {'message': e}
     
 @app.put("/edit/reviews", tags=["Review"])
 async def del_review(item: EditReviews):
@@ -113,7 +113,7 @@ async def del_review(item: EditReviews):
     try:
         cursor = engine.cursor()
         cursor.execute(sql)
-        last_id = cursor.lastrowid
-        return {'message': 'success', 'id': last_id}
+        engine.commit()
+        return {'message': 'success'}
     except Exception as e:
         return {'message': e}
